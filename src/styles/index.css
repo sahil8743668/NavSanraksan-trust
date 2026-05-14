@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { scroll-behavior: smooth; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; }
+button, a, input, textarea, select { outline-offset: 4px; }
+
+@layer components {
+  .section { @apply mx-auto max-w-7xl px-4 py-16 lg:px-8; }
+  .page-hero { @apply mx-auto max-w-5xl px-4 py-20 text-center lg:px-8; }
+  .page-hero h1 { @apply font-display text-4xl font-black leading-tight text-forest dark:text-white md:text-6xl; }
+  .page-hero p:last-child { @apply mx-auto mt-5 max-w-3xl text-lg leading-8 text-ink/70 dark:text-white/70; }
+  .eyebrow { @apply text-sm font-black uppercase tracking-[0.24em] text-leaf dark:text-skytrust; }
+  .section-title { @apply font-display text-3xl font-black leading-tight text-forest dark:text-white md:text-5xl; }
+  .glass-panel { @apply rounded-[2rem] border border-white/60 bg-white/75 p-6 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10 md:p-8; }
+  .glass-card { @apply rounded-3xl border border-white/60 bg-white/75 p-5 shadow-soft backdrop-blur-xl transition hover:-translate-y-1 hover:shadow-glow dark:border-white/10 dark:bg-white/10; }
+  .glass-card h3 { @apply mt-3 font-display text-xl font-black text-forest dark:text-white; }
+  .glass-card p { @apply mt-2 leading-7 text-ink/65 dark:text-white/65; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest px-6 py-4 font-black text-white shadow-soft transition hover:-translate-y-1 hover:bg-leaf; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-full bg-ember px-6 py-4 font-black text-ink shadow-soft transition hover:-translate-y-1 hover:bg-orange-400; }
+  .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest/15 bg-white/70 px-6 py-4 font-black text-forest shadow-sm backdrop-blur transition hover:-translate-y-1 dark:border-white/10 dark:bg-white/10 dark:text-white; }
+  .icon-btn { @apply grid h-11 w-11 place-items-center rounded-full border border-forest/10 bg-white/70 text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest; }
+  .icon-btn-dark { @apply grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white hover:text-forest; }
+  .field { @apply w-full rounded-2xl border border-forest/10 bg-white/75 px-5 py-4 font-semibold text-ink placeholder:text-ink/40 shadow-sm backdrop-blur focus:border-leaf focus:ring-4 focus:ring-leaf/10 dark:border-white/10 dark:bg-white/10 dark:text-white dark:placeholder:text-white/40; }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(2px);
+  opacity: 0.58;
+  animation: float 9s ease-in-out infinite;
+}
+.particle-a {
+  width: 180px;
+  height: 180px;
+  background: rgba(56, 189, 248, 0.28);
+  left: 4%;
+  top: 10%;
+}
+.particle-b {
+  width: 220px;
+  height: 220px;
+  background: rgba(245, 158, 11, 0.24);
+  right: 8%;
+  bottom: 12%;
+  animation-delay: 1.5s;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-24px) translateX(18px); }
+}
+
+.swiper-pagination-bullet-active { background: #0f5132 !important; }
+::selection { background: #f59e0b; color: #10201a; }
