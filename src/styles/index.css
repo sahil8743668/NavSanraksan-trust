@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@700;800&family=Outfit:wght@700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,24 +30,28 @@ button, a, input, textarea, select { outline-offset: 4px; }
   position: absolute;
   border-radius: 9999px;
   pointer-events: none;
-  filter: blur(2px);
-  opacity: 0.58;
+  filter: blur(18px);
+  opacity: 0.42;
   animation: float 9s ease-in-out infinite;
 }
 .particle-a {
-  width: 180px;
-  height: 180px;
-  background: rgba(56, 189, 248, 0.28);
-  left: 4%;
-  top: 10%;
+  width: 130px;
+  height: 130px;
+  background: rgba(31, 138, 91, 0.08);
+  left: 7%;
+  top: 18%;
 }
 .particle-b {
   width: 220px;
   height: 220px;
-  background: rgba(245, 158, 11, 0.24);
+  background: rgba(245, 158, 11, 0.16);
   right: 8%;
   bottom: 12%;
   animation-delay: 1.5s;
+}
+.hero-title {
+  font-family: Outfit, Manrope, Inter, system-ui, sans-serif;
+  letter-spacing: 0;
 }
 @keyframes float {
   0%, 100% { transform: translateY(0) translateX(0); }

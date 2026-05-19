@@ -13,7 +13,7 @@ export default {
         ink: '#10201a'
       },
       fontFamily: {
-        display: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Outfit', 'Manrope', 'Inter', 'system-ui', 'sans-serif'],
         body: ['Inter', 'system-ui', 'sans-serif']
       },
       boxShadow: {
@@ -21,7 +21,7 @@ export default {
         soft: '0 20px 60px rgba(16, 32, 26, 0.12)'
       },
       backgroundImage: {
-        'soft-radial': 'radial-gradient(circle at top left, rgba(56,189,248,0.22), transparent 32%), radial-gradient(circle at 80% 20%, rgba(245,158,11,0.20), transparent 30%), linear-gradient(135deg, #fffdf8 0%, #eefaf5 100%)',
+        'soft-radial': 'radial-gradient(circle at top left, rgba(31,138,91,0.10), transparent 28%), radial-gradient(circle at 80% 20%, rgba(245,158,11,0.16), transparent 30%), linear-gradient(135deg, #fffdf8 0%, #eefaf5 100%)',
         'dark-radial': 'radial-gradient(circle at top left, rgba(56,189,248,0.12), transparent 32%), radial-gradient(circle at 80% 20%, rgba(245,158,11,0.10), transparent 30%), linear-gradient(135deg, #071611 0%, #10201a 100%)'
       }
     }
