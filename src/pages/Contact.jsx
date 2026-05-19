@@ -8,8 +8,8 @@ export default function Contact() {
     <PageTransition>
       <section className="page-hero">
         <p className="eyebrow">Contact</p>
-        <h1>Let us build the next act of care together.</h1>
-        <p>Contact form, map area, address, phone, email, social links, and FAQ accordion.</p>
+        <h1>Connect with NavSanrakshan Trust for welfare, training, and community support.</h1>
+        <p>Reach out for child development programs, women skill training, health awareness, welfare access, volunteering, and partnerships.</p>
       </section>
       <section className="section">
         <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
@@ -31,13 +31,13 @@ export default function Contact() {
       <section className="section">
         <div className="grid min-h-[360px] place-items-center rounded-[2rem] bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1400&q=80')] bg-cover bg-center p-8 text-center shadow-glow">
           <div className="rounded-3xl bg-white/85 p-8 shadow-soft backdrop-blur dark:bg-ink/80">
-            <p className="eyebrow">Google map section</p>
-            <h2 className="font-display text-3xl font-black text-forest dark:text-white">Embed your live Google Map here.</h2>
+            <p className="eyebrow">Community location</p>
+            <h2 className="font-display text-3xl font-black text-forest dark:text-white">Find our community welfare center here.</h2>
           </div>
         </div>
       </section>
       <section className="section pb-24">
-        <SectionHeader eyebrow="FAQ" title="Answers before you ask." />
+        <SectionHeader eyebrow="FAQ" title="Answers about trust objectives and support." />
         <FAQAccordion />
       </section>
     </PageTransition>

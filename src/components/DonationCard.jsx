@@ -16,7 +16,7 @@ export default function DonationCard() {
         <span className="grid h-12 w-12 place-items-center rounded-2xl bg-forest text-white"><BadgeIndianRupee /></span>
         <div>
           <h2 className="font-display text-2xl font-black text-forest dark:text-white">Secure Donation</h2>
-          <p className="text-sm text-ink/60 dark:text-white/60">Design-ready UI for verified payment gateway integration.</p>
+          <p className="text-sm text-ink/60 dark:text-white/60">Support child development, women empowerment, health awareness, and welfare access.</p>
         </div>
       </div>
 
@@ -57,8 +57,8 @@ export default function DonationCard() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 grid place-items-center rounded-[2rem] bg-forest/95 p-8 text-center text-white backdrop-blur">
             <motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} className="max-w-sm">
               <CheckCircle2 className="mx-auto text-ember" size={64} />
-              <h3 className="mt-4 font-display text-3xl font-black">Thank you for choosing hope.</h3>
-              <p className="mt-3 text-white/75">Your donation form is ready for live payment gateway integration.</p>
+              <h3 className="mt-4 font-display text-3xl font-black">Thank you for supporting welfare.</h3>
+              <p className="mt-3 text-white/75">Your support can help children, women, families, and vulnerable communities.</p>
               <button onClick={() => setSuccess(false)} className="mt-6 rounded-full bg-white px-6 py-3 font-black text-forest">Close</button>
             </motion.div>
           </motion.div>

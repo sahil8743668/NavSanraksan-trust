@@ -13,7 +13,7 @@ export default function Footer() {
               <p className="text-sm uppercase tracking-[0.24em] text-white/55">Hope in action</p>
             </div>
           </div>
-          <p className="mt-5 max-w-md leading-8 text-white/75">A people-first trust supporting education, healthcare, women empowerment, environment, child welfare, and resilient communities.</p>
+          <p className="mt-5 max-w-md leading-8 text-white/75">A people-first trust supporting child development, early education, health, nutrition, hygiene, women empowerment, livelihood, welfare access, family care, and social development.</p>
           <div className="mt-6 flex gap-3">
             {[Facebook, Instagram, Twitter, Linkedin].map((Icon, index) => <a key={index} href="#" className="icon-btn-dark" aria-label="Social link"><Icon size={18} /></a>)}
           </div>
@@ -33,7 +33,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-5 text-center text-sm text-white/60">© 2026 NavSanrakshan Trust. Built for impact, dignity, and transparency.</div>
+      <div className="border-t border-white/10 px-4 py-5 text-center text-sm text-white/60">(c) 2026 NavSanrakshan Trust. Built for child welfare, women empowerment, and community development.</div>
     </footer>
   );
 }

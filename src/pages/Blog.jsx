@@ -16,8 +16,8 @@ export default function Blog() {
     <PageTransition>
       <section className="page-hero">
         <p className="eyebrow">Blog and news</p>
-        <h1>Impact reporting with warmth, clarity, and search-friendly structure.</h1>
-        <p>Featured article, categories, search, blog cards, and pagination UI are included.</p>
+        <h1>Updates on child development, women empowerment, health, and community welfare.</h1>
+        <p>Stories from early learning, nutrition and hygiene awareness, livelihood training, welfare access, and social development work.</p>
       </section>
       <section className="section">
         <article className="grid overflow-hidden rounded-[2rem] border border-white/60 bg-white/75 shadow-glow backdrop-blur-xl dark:border-white/10 dark:bg-white/10 lg:grid-cols-2">
@@ -30,7 +30,7 @@ export default function Blog() {
         </article>
       </section>
       <section className="section pb-24">
-        <SectionHeader eyebrow="Newsroom" title="Latest trust updates." />
+        <SectionHeader eyebrow="Newsroom" title="Latest objective-based trust updates." />
         <div className="mb-8 grid gap-4 md:grid-cols-[1fr_auto]">
           <label className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-ink/40" />
