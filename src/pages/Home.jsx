@@ -61,7 +61,7 @@ export default function Home() {
       <section className="section">
         <SectionHeader eyebrow="Latest news" title="Updates from child, women, family, and welfare programs." />
         <div className="grid gap-6 md:grid-cols-3">
-          {blogs.slice(0, 3).map((post) => <BlogCard key={post.title} post={post} />)}
+          {blogs.slice(0, 3).map((post) => <BlogCard key={post.title} post={post} onRead={() => window.location.assign('/blog')} />)}
         </div>
       </section>
 

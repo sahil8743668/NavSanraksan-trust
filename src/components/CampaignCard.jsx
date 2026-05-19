@@ -23,7 +23,7 @@ export default function CampaignCard({ campaign }) {
           <span>Goal Rs. {campaign.goal.toLocaleString('en-IN')}</span>
           <span className="flex items-center gap-1"><CalendarDays size={16} /> {campaign.days} days left</span>
         </div>
-        <Link to="/donate" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-5 py-3 font-black text-white transition hover:bg-leaf">
+        <Link to={`/donate?campaign=${encodeURIComponent(campaign.title)}`} className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-5 py-3 font-black text-white transition hover:bg-leaf">
           <Heart size={18} fill="currentColor" /> Donate to Campaign
         </Link>
       </div>

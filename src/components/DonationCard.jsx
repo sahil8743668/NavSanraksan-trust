@@ -1,28 +1,48 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BadgeIndianRupee, CheckCircle2, CreditCard, Landmark, Smartphone } from 'lucide-react';
 
 export default function DonationCard() {
+  const [searchParams] = useSearchParams();
   const [amount, setAmount] = useState(2500);
   const [monthly, setMonthly] = useState(true);
   const [method, setMethod] = useState('UPI');
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', phone: '', pan: '' });
   const amounts = [500, 1000, 2500, 5000, 10000, 25000];
   const methods = [{ name: 'UPI', icon: Smartphone }, { name: 'Card', icon: CreditCard }, { name: 'Net Banking', icon: Landmark }];
+  const campaign = searchParams.get('campaign') || 'General support';
+
+  const updateField = (field, value) => setForm((current) => ({ ...current, [field]: value }));
+  const submitDonation = (event) => {
+    event.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.phone.trim()) {
+      setError('Please fill name, email, and phone number.');
+      return;
+    }
+    const donation = { ...form, amount, monthly, method, campaign, createdAt: new Date().toISOString() };
+    const existing = JSON.parse(localStorage.getItem('navsanrakshan_donations') || '[]');
+    localStorage.setItem('navsanrakshan_donations', JSON.stringify([donation, ...existing]));
+    setError('');
+    setSuccess(true);
+  };
 
   return (
-    <div className="relative rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-glow backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 md:p-8">
+    <form onSubmit={submitDonation} className="relative rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-glow backdrop-blur-2xl dark:border-white/10 dark:bg-white/10 md:p-8">
       <div className="flex items-center gap-3">
         <span className="grid h-12 w-12 place-items-center rounded-2xl bg-forest text-white"><BadgeIndianRupee /></span>
         <div>
           <h2 className="font-display text-2xl font-black text-forest dark:text-white">Secure Donation</h2>
           <p className="text-sm text-ink/60 dark:text-white/60">Support child development, women empowerment, health awareness, and welfare access.</p>
+          <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-leaf dark:text-skytrust">{campaign}</p>
         </div>
       </div>
 
       <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {amounts.map((item) => (
-          <button key={item} onClick={() => setAmount(item)} className={`rounded-2xl border px-4 py-3 font-black transition ${amount === item ? 'border-forest bg-forest text-white' : 'border-forest/10 bg-white/70 text-forest hover:border-forest dark:border-white/10 dark:bg-white/10 dark:text-white'}`}>
+          <button type="button" key={item} onClick={() => setAmount(item)} className={`rounded-2xl border px-4 py-3 font-black transition ${amount === item ? 'border-forest bg-forest text-white' : 'border-forest/10 bg-white/70 text-forest hover:border-forest dark:border-white/10 dark:bg-white/10 dark:text-white'}`}>
             Rs. {item.toLocaleString('en-IN')}
           </button>
         ))}
@@ -35,20 +55,21 @@ export default function DonationCard() {
 
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         {methods.map(({ name, icon: Icon }) => (
-          <button key={name} onClick={() => setMethod(name)} className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 font-black transition ${method === name ? 'border-ember bg-ember text-ink' : 'border-forest/10 bg-white/60 text-ink/70 dark:border-white/10 dark:bg-white/10 dark:text-white/70'}`}>
+          <button type="button" key={name} onClick={() => setMethod(name)} className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 font-black transition ${method === name ? 'border-ember bg-ember text-ink' : 'border-forest/10 bg-white/60 text-ink/70 dark:border-white/10 dark:bg-white/10 dark:text-white/70'}`}>
             <Icon size={18} /> {name}
           </button>
         ))}
       </div>
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
-        <input className="field" placeholder="Full name" />
-        <input className="field" placeholder="Email address" type="email" />
-        <input className="field" placeholder="Phone number" />
-        <input className="field" placeholder="PAN optional" />
+        <input className="field" placeholder="Full name" value={form.name} onChange={(event) => updateField('name', event.target.value)} />
+        <input className="field" placeholder="Email address" type="email" value={form.email} onChange={(event) => updateField('email', event.target.value)} />
+        <input className="field" placeholder="Phone number" value={form.phone} onChange={(event) => updateField('phone', event.target.value)} />
+        <input className="field" placeholder="PAN optional" value={form.pan} onChange={(event) => updateField('pan', event.target.value)} />
       </div>
+      {error && <p className="mt-4 rounded-2xl bg-red-50 p-3 text-sm font-bold text-red-700">{error}</p>}
 
-      <button onClick={() => setSuccess(true)} className="mt-6 w-full rounded-full bg-forest px-6 py-4 font-black text-white shadow-soft transition hover:bg-leaf">
+      <button type="submit" className="mt-6 w-full rounded-full bg-forest px-6 py-4 font-black text-white shadow-soft transition hover:bg-leaf">
         Donate Rs. {amount.toLocaleString('en-IN')} {monthly ? 'Monthly' : 'Once'}
       </button>
 
@@ -59,11 +80,11 @@ export default function DonationCard() {
               <CheckCircle2 className="mx-auto text-ember" size={64} />
               <h3 className="mt-4 font-display text-3xl font-black">Thank you for supporting welfare.</h3>
               <p className="mt-3 text-white/75">Your support can help children, women, families, and vulnerable communities.</p>
-              <button onClick={() => setSuccess(false)} className="mt-6 rounded-full bg-white px-6 py-3 font-black text-forest">Close</button>
+              <button type="button" onClick={() => setSuccess(false)} className="mt-6 rounded-full bg-white px-6 py-3 font-black text-forest">Close</button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </form>
   );
 }

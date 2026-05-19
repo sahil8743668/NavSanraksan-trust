@@ -15,7 +15,10 @@ export default function Footer() {
           </div>
           <p className="mt-5 max-w-md leading-8 text-white/75">A people-first trust supporting child development, early education, health, nutrition, hygiene, women empowerment, livelihood, welfare access, family care, and social development.</p>
           <div className="mt-6 flex gap-3">
-            {[Facebook, Instagram, Twitter, Linkedin].map((Icon, index) => <a key={index} href="#" className="icon-btn-dark" aria-label="Social link"><Icon size={18} /></a>)}
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="icon-btn-dark" aria-label="Facebook"><Facebook size={18} /></a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="icon-btn-dark" aria-label="Instagram"><Instagram size={18} /></a>
+            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="icon-btn-dark" aria-label="Twitter"><Twitter size={18} /></a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="icon-btn-dark" aria-label="LinkedIn"><Linkedin size={18} /></a>
           </div>
         </div>
         <div>
