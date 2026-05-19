@@ -1,9 +1,21 @@
+// export const stats = [
+//   { label: 'Children Supported', value: 12840, suffix: '+' },
+//   { label: 'Families Reached', value: 52400, suffix: '+' },
+//   { label: 'Women Trained', value: 7360, suffix: '+' },
+//   { label: 'Community Sessions', value: 940, suffix: '+' },
+// ];
+
 export const stats = [
-  { label: 'Children Supported', value: 12840, suffix: '+' },
-  { label: 'Families Reached', value: 52400, suffix: '+' },
-  { label: 'Women Trained', value: 7360, suffix: '+' },
-  { label: 'Community Sessions', value: 940, suffix: '+' },
+  { label: 'Children Supported', value: 'Updated Soon' },
+  { label: 'Families Reached', value: 'Updated Soon' },
+  { label: 'Women Trained', value: 'Updated Soon' },
+  { label: 'Community Sessions', value: 'Updated Soon' },
 ];
+
+
+
+
+
 
 export const campaigns = [
   {
