@@ -28,9 +28,9 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative">
-          <div className="absolute -left-6 top-8 z-10 rounded-3xl border border-white/60 bg-white/75 p-4 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+          <div className="absolute -left-6 top-14 z-10 w-[260px] rounded-3xl border border-white/60 bg-white/75 px-4 py-3 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
             <p className="text-sm font-bold text-ink/60 dark:text-white/60">This month</p>
-            <p className="font-display text-2xl font-black text-forest dark:text-white">4,200 families reached</p>
+            <p className="font-display text-xl font-black text-forest dark:text-white">4,200 families reached</p>
           </div>
           <img className="h-[520px] w-full rounded-[2rem] object-cover object-center shadow-glow" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1400&q=80" alt="Children learning in a safe activity-based classroom" />
           <div className="absolute -bottom-6 right-4 rounded-3xl bg-forest p-5 text-white shadow-glow">
