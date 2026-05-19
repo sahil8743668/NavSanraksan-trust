@@ -6,7 +6,6 @@ import { BadgeIndianRupee, CheckCircle2, CreditCard, Landmark, Smartphone } from
 export default function DonationCard() {
   const [searchParams] = useSearchParams();
   const [amount, setAmount] = useState(2500);
-  const [monthly, setMonthly] = useState(true);
   const [method, setMethod] = useState('UPI');
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -14,6 +13,8 @@ export default function DonationCard() {
   const amounts = [500, 1000, 2500, 5000, 10000, 25000];
   const methods = [{ name: 'UPI', icon: Smartphone }, { name: 'Card', icon: CreditCard }, { name: 'Net Banking', icon: Landmark }];
   const campaign = searchParams.get('campaign') || 'General support';
+  const hasCampaign = campaign !== 'General support';
+  const [countInCampaign, setCountInCampaign] = useState(hasCampaign);
 
   const updateField = (field, value) => setForm((current) => ({ ...current, [field]: value }));
   const submitDonation = (event) => {
@@ -22,9 +23,10 @@ export default function DonationCard() {
       setError('Please fill name, email, and phone number.');
       return;
     }
-    const donation = { ...form, amount, monthly, method, campaign, createdAt: new Date().toISOString() };
+    const donation = { ...form, amount, method, campaign, countInCampaign: hasCampaign && countInCampaign, createdAt: new Date().toISOString() };
     const existing = JSON.parse(localStorage.getItem('navsanrakshan_donations') || '[]');
     localStorage.setItem('navsanrakshan_donations', JSON.stringify([donation, ...existing]));
+    window.dispatchEvent(new Event('navsanrakshan:donation'));
     setError('');
     setSuccess(true);
   };
@@ -48,9 +50,9 @@ export default function DonationCard() {
         ))}
       </div>
 
-      <label className="mt-5 flex items-center justify-between rounded-2xl bg-sand/70 p-4 font-bold text-forest dark:bg-white/10 dark:text-white">
-        Make this a monthly gift
-        <input type="checkbox" checked={monthly} onChange={() => setMonthly(!monthly)} className="h-5 w-5 accent-leaf" />
+      <label className="mt-5 flex items-center justify-between gap-4 rounded-2xl bg-sand/70 p-4 font-bold text-forest dark:bg-white/10 dark:text-white">
+        Add this donation to campaign progress
+        <input type="checkbox" checked={hasCampaign && countInCampaign} disabled={!hasCampaign} onChange={() => setCountInCampaign(!countInCampaign)} className="h-5 w-5 accent-leaf disabled:opacity-40" />
       </label>
 
       <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -70,7 +72,7 @@ export default function DonationCard() {
       {error && <p className="mt-4 rounded-2xl bg-red-50 p-3 text-sm font-bold text-red-700">{error}</p>}
 
       <button type="submit" className="mt-6 w-full rounded-full bg-forest px-6 py-4 font-black text-white shadow-soft transition hover:bg-leaf">
-        Donate Rs. {amount.toLocaleString('en-IN')} {monthly ? 'Monthly' : 'Once'}
+        Donate Rs. {amount.toLocaleString('en-IN')}
       </button>
 
       <AnimatePresence>

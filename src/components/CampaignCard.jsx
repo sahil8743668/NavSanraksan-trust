@@ -1,8 +1,29 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { CalendarDays, Heart } from 'lucide-react';
 
 export default function CampaignCard({ campaign }) {
-  const percent = Math.min(Math.round((campaign.raised / campaign.goal) * 100), 100);
+  const [raised, setRaised] = useState(0);
+  const percent = Math.min(Math.round((raised / campaign.goal) * 100), 100);
+
+  useEffect(() => {
+    const updateRaised = () => {
+      const donations = JSON.parse(localStorage.getItem('navsanrakshan_donations') || '[]');
+      const total = donations
+        .filter((donation) => donation.campaign === campaign.title && donation.countInCampaign)
+        .reduce((sum, donation) => sum + Number(donation.amount || 0), 0);
+      setRaised(total);
+    };
+
+    updateRaised();
+    window.addEventListener('storage', updateRaised);
+    window.addEventListener('navsanrakshan:donation', updateRaised);
+    return () => {
+      window.removeEventListener('storage', updateRaised);
+      window.removeEventListener('navsanrakshan:donation', updateRaised);
+    };
+  }, [campaign.title]);
+
   return (
     <article className="group overflow-hidden rounded-3xl border border-white/60 bg-white/75 shadow-soft backdrop-blur-xl transition duration-300 hover:-translate-y-2 hover:shadow-glow dark:border-white/10 dark:bg-white/10">
       <div className="relative h-60 overflow-hidden">
@@ -16,7 +37,7 @@ export default function CampaignCard({ campaign }) {
           <div className="h-full rounded-full bg-gradient-to-r from-leaf to-ember" style={{ width: `${percent}%` }} />
         </div>
         <div className="mt-4 flex items-center justify-between text-sm font-bold text-ink/65 dark:text-white/65">
-          <span>Raised Rs. {campaign.raised.toLocaleString('en-IN')}</span>
+          <span>Raised Rs. {raised.toLocaleString('en-IN')}</span>
           <span>{percent}%</span>
         </div>
         <div className="mt-2 flex items-center justify-between text-sm text-ink/55 dark:text-white/55">
