@@ -28,7 +28,7 @@ export default function HeroSection() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7, delay: 0.1 }} className="relative">
-          <div className="absolute -left-6 top-14 z-10 w-[260px] rounded-3xl border border-white/60 bg-white/75 px-4 py-3 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+          <div className="absolute left-6 top-14 z-10 w-[260px] rounded-3xl border border-white/60 bg-white/75 px-4 py-3 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
             <p className="text-sm font-bold text-ink/60 dark:text-white/60">This month</p>
             <p className="font-display text-xl font-black text-forest dark:text-white">4,200 families reached</p>
           </div>
