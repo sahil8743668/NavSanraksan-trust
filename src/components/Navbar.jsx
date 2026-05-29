@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { HeartHandshake, Menu, Moon, Sun, X } from 'lucide-react';
+import { HeartHandshake, LogIn, LogOut, Menu, Moon, Sun, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext.jsx';
 
 const links = [
   ['Home', '/'],
@@ -14,6 +15,7 @@ const links = [
 
 export default function Navbar({ dark, setDark }) {
   const [open, setOpen] = useState(false);
+  const { user, signOut } = useAuth();
   const navClass = ({ isActive }) =>
     `rounded-full px-4 py-2 text-sm font-bold transition ${isActive ? 'bg-forest text-white dark:bg-white dark:text-forest' : 'text-ink/75 hover:bg-white/70 hover:text-forest dark:text-white/75 dark:hover:bg-white/10 dark:hover:text-white'}`;
 
@@ -38,6 +40,15 @@ export default function Navbar({ dark, setDark }) {
           <button onClick={() => setDark(!dark)} className="icon-btn" aria-label="Toggle dark mode">
             {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+          {user ? (
+            <button onClick={signOut} className="hidden items-center gap-2 rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex" aria-label="Sign out">
+              <LogOut size={17} /> Sign Out
+            </button>
+          ) : (
+            <Link to="/signin" className="hidden items-center gap-2 rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex">
+              <LogIn size={17} /> Sign In
+            </Link>
+          )}
           <Link to="/donate" className="hidden rounded-full bg-ember px-5 py-3 text-sm font-black text-ink shadow-soft transition hover:-translate-y-0.5 hover:bg-orange-400 md:inline-flex">
             Donate Now
           </Link>
@@ -53,6 +64,11 @@ export default function Navbar({ dark, setDark }) {
             {links.map(([label, path]) => (
               <NavLink key={path} to={path} onClick={() => setOpen(false)} className={navClass}>{label}</NavLink>
             ))}
+            {user ? (
+              <button onClick={() => { signOut(); setOpen(false); }} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Sign Out</button>
+            ) : (
+              <Link to="/signin" onClick={() => setOpen(false)} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Sign In</Link>
+            )}
             <Link to="/donate" onClick={() => setOpen(false)} className="rounded-full bg-ember px-5 py-3 text-center text-sm font-black text-ink">Donate Now</Link>
           </div>
         </div>

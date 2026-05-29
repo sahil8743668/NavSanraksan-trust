@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import './styles/index.css';
 import App from './App.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 function Root() {
   const [dark, setDark] = useState(false);
@@ -22,7 +23,9 @@ function Root() {
 
   return (
     <BrowserRouter>
-      <App dark={dark} setDark={setDark} />
+      <AuthProvider>
+        <App dark={dark} setDark={setDark} />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

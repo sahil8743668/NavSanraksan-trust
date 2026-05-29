@@ -17,6 +17,7 @@ import Gallery from './pages/Gallery.jsx';
 import Blog from './pages/Blog.jsx';
 import Contact from './pages/Contact.jsx';
 import NotFound from './pages/NotFound.jsx';
+import SignIn from './pages/SignIn.jsx';
 
 export default function App({ dark, setDark }) {
   const location = useLocation();
@@ -49,6 +50,7 @@ export default function App({ dark, setDark }) {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/signin" element={<SignIn />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
