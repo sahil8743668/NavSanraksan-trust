@@ -23,15 +23,15 @@ export async function saveUserProfile(user) {
     lastLoginAt: serverTimestamp(),
   };
 
-  await setDoc(doc(db, 'users', user.uid), {
-    ...profile,
-    createdAt: serverTimestamp(),
-  }, { merge: true });
-
   if (isAdmin) {
     await setDoc(doc(db, 'admins', user.uid), {
       ...profile,
       adminSince: serverTimestamp(),
+    }, { merge: true });
+  } else {
+    await setDoc(doc(db, 'users', user.uid), {
+      ...profile,
+      createdAt: serverTimestamp(),
     }, { merge: true });
   }
 
