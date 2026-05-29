@@ -5,6 +5,7 @@ import { LogIn } from 'lucide-react';
 import PageTransition from '../components/PageTransition.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { auth, isFirebaseConfigured } from '../firebase.js';
+import { saveUserProfile } from '../utils/userProfile.js';
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -29,8 +30,9 @@ export default function SignIn() {
     setError('');
 
     try {
-      await signInWithEmailAndPassword(auth, form.email, form.password);
-      navigate('/');
+      const credential = await signInWithEmailAndPassword(auth, form.email, form.password);
+      await saveUserProfile(credential.user);
+      navigate('/dashboard');
     } catch {
       setError('Invalid email or password.');
     } finally {
@@ -49,8 +51,9 @@ export default function SignIn() {
 
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate('/');
+      const credential = await signInWithPopup(auth, provider);
+      await saveUserProfile(credential.user);
+      navigate('/dashboard');
     } catch {
       setError('Google sign in failed. Check Firebase Google provider and authorized domains.');
     } finally {

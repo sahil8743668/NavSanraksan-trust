@@ -41,9 +41,12 @@ export default function Navbar({ dark, setDark }) {
             {dark ? <Sun size={20} /> : <Moon size={20} />}
           </button>
           {user ? (
-            <button onClick={signOut} className="hidden items-center gap-2 rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex" aria-label="Sign out">
-              <LogOut size={17} /> Sign Out
-            </button>
+            <>
+              <Link to="/dashboard" className="hidden rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex">Dashboard</Link>
+              <button onClick={signOut} className="hidden items-center gap-2 rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex" aria-label="Sign out">
+                <LogOut size={17} /> Sign Out
+              </button>
+            </>
           ) : (
             <Link to="/signin" className="hidden items-center gap-2 rounded-full border border-forest/10 bg-white/70 px-4 py-3 text-sm font-black text-forest transition hover:bg-forest hover:text-white dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white dark:hover:text-forest md:inline-flex">
               <LogIn size={17} /> Sign In
@@ -65,7 +68,10 @@ export default function Navbar({ dark, setDark }) {
               <NavLink key={path} to={path} onClick={() => setOpen(false)} className={navClass}>{label}</NavLink>
             ))}
             {user ? (
-              <button onClick={() => { signOut(); setOpen(false); }} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Sign Out</button>
+              <>
+                <Link to="/dashboard" onClick={() => setOpen(false)} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Dashboard</Link>
+                <button onClick={() => { signOut(); setOpen(false); }} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Sign Out</button>
+              </>
             ) : (
               <Link to="/signin" onClick={() => setOpen(false)} className="rounded-full border border-forest/10 bg-white/70 px-5 py-3 text-center text-sm font-black text-forest dark:border-white/10 dark:bg-white/10 dark:text-white">Sign In</Link>
             )}
