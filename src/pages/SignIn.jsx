@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { LogIn } from 'lucide-react';
 import PageTransition from '../components/PageTransition.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -12,6 +12,7 @@ export default function SignIn() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [googleSubmitting, setGoogleSubmitting] = useState(false);
 
   if (!loading && user) return <Navigate to="/" replace />;
 
@@ -34,6 +35,26 @@ export default function SignIn() {
       setError('Invalid email or password.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    if (!auth) {
+      setError('Firebase config missing. Add Firebase environment variables first.');
+      return;
+    }
+
+    setGoogleSubmitting(true);
+    setError('');
+
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      navigate('/');
+    } catch {
+      setError('Google sign in failed. Check Firebase Google provider and authorized domains.');
+    } finally {
+      setGoogleSubmitting(false);
     }
   };
 
@@ -62,6 +83,10 @@ export default function SignIn() {
 
           <button type="submit" disabled={submitting || !isFirebaseConfigured} className="mt-6 w-full rounded-full bg-forest px-6 py-4 font-black text-white shadow-soft transition hover:bg-leaf disabled:cursor-not-allowed disabled:opacity-50">
             {submitting ? 'Signing in...' : 'Sign In'}
+          </button>
+
+          <button type="button" onClick={signInWithGoogle} disabled={googleSubmitting || !isFirebaseConfigured} className="mt-3 w-full rounded-full border border-forest/10 bg-white/75 px-6 py-4 font-black text-forest shadow-sm transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white/15">
+            {googleSubmitting ? 'Opening Google...' : 'Continue with Google'}
           </button>
         </form>
       </section>
