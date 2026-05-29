@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { BadgeCheck, Database, ShieldCheck, UserRound } from 'lucide-react';
+import { updateProfile } from 'firebase/auth';
+import { collection, doc, getDocs, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore';
+import { BadgeCheck, Mail, Phone, Save, ShieldCheck, UserRound } from 'lucide-react';
 import PageTransition from '../components/PageTransition.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { db } from '../firebase.js';
@@ -11,8 +12,20 @@ export default function Dashboard() {
   const { user, profile, loading } = useAuth();
   const [users, setUsers] = useState([]);
   const [adminCount, setAdminCount] = useState(0);
+  const [form, setForm] = useState({ name: '', phoneNumber: '', photoURL: '' });
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [saving, setSaving] = useState(false);
   const isAdmin = isAdminEmail(user?.email);
+
+  useEffect(() => {
+    if (!user) return;
+    setForm({
+      name: profile?.name || user.displayName || '',
+      phoneNumber: profile?.phoneNumber || user.phoneNumber || '',
+      photoURL: profile?.photoURL || user.photoURL || '',
+    });
+  }, [profile, user]);
 
   useEffect(() => {
     if (!db || !isAdmin) return undefined;
@@ -42,6 +55,45 @@ export default function Dashboard() {
 
   if (!user) return <Navigate to="/signin" replace />;
 
+  const updateField = (field, value) => setForm((current) => ({ ...current, [field]: value }));
+
+  const saveProfile = async (event) => {
+    event.preventDefault();
+    if (!db || !user) return;
+
+    setSaving(true);
+    setError('');
+    setMessage('');
+
+    try {
+      await updateProfile(user, {
+        displayName: form.name,
+        photoURL: form.photoURL,
+      });
+
+      const updatedProfile = {
+        name: form.name || user.email || 'Website user',
+        email: user.email || '',
+        photoURL: form.photoURL || '',
+        phoneNumber: form.phoneNumber || '',
+        role: isAdmin ? 'admin' : 'user',
+        updatedAt: serverTimestamp(),
+      };
+
+      await setDoc(doc(db, 'users', user.uid), updatedProfile, { merge: true });
+
+      if (isAdmin) {
+        await setDoc(doc(db, 'admins', user.uid), updatedProfile, { merge: true });
+      }
+
+      setMessage('Profile updated successfully.');
+    } catch {
+      setError('Profile could not be updated. Check Firestore rules and try again.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <PageTransition>
       <section className="section py-16">
@@ -55,11 +107,47 @@ export default function Dashboard() {
 
         <div className="grid gap-5 md:grid-cols-3">
           <div className="glass-card"><UserRound className="text-ember" /><h3>{profile?.role || (isAdmin ? 'admin' : 'user')}</h3><p>Signed in as {user.email}</p></div>
-          <div className="glass-card"><Database className="text-ember" /><h3>{isAdmin ? users.length : 'Saved'}</h3><p>{isAdmin ? 'Registered users in Firestore' : 'Your profile is saved in Firestore'}</p></div>
-          <div className="glass-card"><ShieldCheck className="text-ember" /><h3>{isAdmin ? adminCount : 'User'}</h3><p>{isAdmin ? 'Admin records in Firestore' : 'Standard website access'}</p></div>
+          {isAdmin && <div className="glass-card"><UserRound className="text-ember" /><h3>{users.length}</h3><p>Registered users in Firestore</p></div>}
+          {isAdmin && <div className="glass-card"><ShieldCheck className="text-ember" /><h3>{adminCount}</h3><p>Admin records in Firestore</p></div>}
         </div>
 
         {error && <p className="mt-6 rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-700">{error}</p>}
+        {message && <p className="mt-6 rounded-2xl bg-green-50 p-4 text-sm font-bold text-green-700">{message}</p>}
+
+        <form onSubmit={saveProfile} className="mt-8 glass-panel">
+          <div className="flex items-center gap-3">
+            <UserRound className="text-ember" />
+            <h2 className="font-display text-2xl font-black text-forest dark:text-white">Profile Settings</h2>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <label className="grid gap-2 font-bold text-forest dark:text-white">
+              Full name
+              <input className="field" value={form.name} onChange={(event) => updateField('name', event.target.value)} placeholder="Your name" />
+            </label>
+            <label className="grid gap-2 font-bold text-forest dark:text-white">
+              Phone number
+              <input className="field" value={form.phoneNumber} onChange={(event) => updateField('phoneNumber', event.target.value)} placeholder="Phone number" />
+            </label>
+            <label className="grid gap-2 font-bold text-forest dark:text-white">
+              Email address
+              <span className="field flex items-center gap-3 text-ink/60 dark:text-white/60"><Mail size={18} /> {user.email}</span>
+            </label>
+            <label className="grid gap-2 font-bold text-forest dark:text-white">
+              Profile photo URL
+              <input className="field" value={form.photoURL} onChange={(event) => updateField('photoURL', event.target.value)} placeholder="https://..." />
+            </label>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <button type="submit" disabled={saving} className="btn-primary disabled:cursor-not-allowed disabled:opacity-50">
+              <Save size={18} /> {saving ? 'Saving...' : 'Save Profile'}
+            </button>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-5 py-3 text-sm font-bold text-ink/60 dark:bg-white/10 dark:text-white/60">
+              <Phone size={16} /> Changes sync to Firestore
+            </span>
+          </div>
+        </form>
 
         {isAdmin ? (
           <div className="mt-8 glass-panel">
